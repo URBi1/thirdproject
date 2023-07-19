@@ -42,16 +42,21 @@ class APIManager {
 
     async gatherAllData() {
         const userPromise = this.getNRandomUsers(7);
-        const users = await userPromise;
+        const promiseArray = [
+            userPromise,
+            this.getRandomKanyeQuote(),
+            this.getRandomPokemon(),
+            this.getRandomMeatText()
+        ];
+    
+        const [users, quote, pokemon, meat] = await Promise.all(promiseArray);
+    
         this.data.mainUser = users.results[0];
         this.data.friends = users.results.slice(1);
-        
-        this.data.quote = await this.getRandomKanyeQuote();
-
-        this.data.pokemon = await this.getRandomPokemon();
-
-        this.data.meat = await this.getRandomMeatText();
-
+        this.data.quote = quote;
+        this.data.pokemon = pokemon;
+        this.data.meat = meat;
+    
         return this.data;
     }
 }

@@ -1,3 +1,7 @@
+Handlebars.registerHelper('properCase', function(text) {
+    return text.charAt(0).toUpperCase() + text.slice(1);
+});
+
 class Renderer {
     constructor() {
         this.userSource = $("#user-template").html();
