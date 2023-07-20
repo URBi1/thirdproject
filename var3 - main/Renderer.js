@@ -20,7 +20,8 @@ class Renderer {
         this.meatTemplate = Handlebars.compile(this.meatSource);
         this.savedUsersDropdownSource = $('#users-template').html();
         this.savedUsersDropdownTemplate = Handlebars.compile(this.savedUsersDropdownSource);
-
+        this.gifSource = $("#gif-template").html();
+        this.gifTemplate = Handlebars.compile(this.gifSource);
 
     }
 
@@ -49,11 +50,17 @@ class Renderer {
         $('.meat-container').empty().append(newHTML);
     }
 
+    renderGif(pokemonGif) {
+        let newHTML = this.gifTemplate({url: pokemonGif});
+    $('.gif-container').empty().append(newHTML);
+    }
+
     renderAll(data) {
         this.renderUser(data.mainUser);
         this.renderFriends(data.friends);
         this.renderQuote(data.quote.quote);
         this.renderPokemon(data.pokemon);
+        this.renderGif(data.pokemonGif);
         this.renderMeat(data.meat[0]);
     }
     updateSavedUsersDropdown(userKeys) {

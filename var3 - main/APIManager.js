@@ -40,6 +40,17 @@ class APIManager {
         });
     }
 
+    getGif(title) {
+        return $.get('https://api.giphy.com/v1/gifs/search', {
+          api_key: 'yfmfJcZr8Se0Nhv25E5F8ua61va7EqOl',
+          q: title,
+          limit: 1
+        }).fail(function (error) {
+            console.error('Error in meat ', error);
+        });
+      }
+
+
     async gatherAllData() {
         const userPromise = this.getNRandomUsers(7);
         const promiseArray = [
@@ -55,6 +66,13 @@ class APIManager {
         this.data.friends = users.results.slice(1);
         this.data.quote = quote;
         this.data.pokemon = pokemon;
+        let gifObject = await this.getGif(pokemon.name);
+        if (gifObject.data && gifObject.data.length > 0) {
+        this.data.pokemonGif = gifObject.data[0].images.fixed_height.url;
+        } else {
+                  console.error("No Gif data available for the Pokemon:", pokemon.name);
+        }
+
         this.data.meat = meat;
     
         return this.data;
